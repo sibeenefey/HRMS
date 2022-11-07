@@ -1,9 +1,34 @@
+<?php
+  require_once './config/config.php';
+  if(isset($_POST['submit'])){
+
+      $username = mysqli_escape_real_string($conn, $_POST['username']);
+      $password = mysqli_escape_real_string($conn, $_POST['password']);
+      $errorMessage = '';
+      
+      $sql = "SELECT * FROM access WHERE username = {$username}";
+      $runSQL = mysqli_query($conn, $sql);
+      if($runSQL->num_rows() > 0){
+         while($row = mysqli_fetch_array($runSQL)){
+            if($password == $row['password']){
+                echo "All is Well";
+            }else {
+              $errorMessage = "Wrong username or password";
+            }
+         }
+      }else{
+        $errorMessage = "Wrong username or password";
+      }
+
+  }
+
+?>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bootstrap 5 - Login Form</title>
+  <title>User Login</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
 </head>
 
